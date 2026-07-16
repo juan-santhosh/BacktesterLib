@@ -31,8 +31,8 @@ class BuyAndHold(Strategy): # Example strategy
 
     @property
     def name(self) -> str:
-        return f"Buy & Hold {self.amount} Tokens"
+        return f"Buy & Hold {self.amount} Shares"
     
     def generate_signals(self, df: pd.DataFrame) -> pd.Series:
-        # Hold {amount} tokens over entire window.
+        # Hold {amount} shares over entire window.
         return pd.Series(self.amount, index=range(len(df))) 
