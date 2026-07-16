@@ -5,8 +5,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as plticker
 
-from strategies import Strategy
-from result import BacktestResult
+from backtesterlib.strategies import Strategy
+from backtesterlib.result import BacktestResult
 
 @dataclass(slots=True)
 class Backtester:

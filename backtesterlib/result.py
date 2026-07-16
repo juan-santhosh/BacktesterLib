@@ -5,7 +5,7 @@ import pandas as pd
 import seaborn as sns
 from matplotlib.axes import Axes
 
-from strategies import Strategy
+from backtesterlib.strategies import Strategy
 
 @dataclass(slots=True)
 class BacktestResult:

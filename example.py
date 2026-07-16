@@ -1,8 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from backtester import Backtester
-from strategies import BuyAndHold
+from backtesterlib import Backtester, BuyAndHold
 
 plt.style.use('dark_background')
 
