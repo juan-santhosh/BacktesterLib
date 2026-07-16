@@ -11,6 +11,7 @@ requires-python = ">=3.9"
 authors = [{name = "Juan Santhosh"}]
 license = {text = "MIT"}
 dependencies = [
+  "setuptools",
   "numpy",
   "pandas",
   "matplotlib",
@@ -18,8 +19,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/your-username/backtesterlib"
-Repository = "https://github.com/your-username/backtesterlib"
+Homepage = "https://github.com/juan-santhosh/BacktesterLib"
+Repository = "https://github.com/juan-santhosh/BacktesterLib"
 
 [tool.setuptools]
 packages = ["backtesterlib"]
