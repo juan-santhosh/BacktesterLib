@@ -10,6 +10,22 @@ from result import BacktestResult
 
 @dataclass(slots=True)
 class Backtester:
+
+    """Backtester object for vectorised strategy backtesting.
+    
+    This class takes a dataframe of historical price data
+    and evaluates the performance of any given vectorised
+    trading strategies.
+
+    Attributes:
+        df (pd.DataFrame) DataFrame of historical prices.
+        close_columns (str): Name of close price column in data.
+        bars_per_year (float): Number of bars in a year in your data interval. e.g. 365 bars for daily data.
+        windows_per_year (float): Number of backtest windows in a complete year. e.g. 12 windows for a month long backtest.
+        fee_rate (float): Percentage fee per share
+        fee_in_usd (bool): Default True. False if fee is in share units not USD.
+    """
+
     df: pd.DataFrame
     close_column: str
 
@@ -25,6 +41,14 @@ class Backtester:
     def run(
             self, strategy: Strategy, baseline: bool = False,
             n_mote_carlo_paths: int = 1000) -> None:
+        
+        """Runs a vectorised strategy on historical data and saves result to class object.
+
+        Args:
+            strategy (Strategy): Strategy that takes a DataFrame and returns a Series of position signals.
+            baseline (bool): Tells the backtester whether to use this as the baseline performance metric.
+            n_monte_carlo_paths (int): Number of random shuffle monte carlo return paths to simulate.
+        """
         
         result_df = self.df.copy()
 
@@ -93,6 +117,13 @@ class Backtester:
             self, figsize: tuple[int, int], 
             plot_correlations: bool = True) -> None:
         
+        """Plots all saved results alongside baseline to display strategy performance.
+
+        Args:
+            figsize (tuple[int, int]): Sets x and y figure dimensions.
+            plot_correlations (bool): Default True. Adds subplots which display strategy return correlations to market return.
+        """
+        
         rows = 1 + len(self.results) if plot_correlations else 1
         fig, axes = plt.subplots(rows, 1, figsize=figsize)
 
@@ -139,6 +170,7 @@ class Backtester:
         plt.show()
 
     def log_results(self) -> None:
+        """Logs each strategy's performance metrics."""
         for result in self.results:
             result.log_metrics()
 
