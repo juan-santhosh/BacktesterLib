@@ -7,22 +7,21 @@ from strategies import BuyAndHold
 plt.style.use('dark_background')
 
 MINUTES_PER_DAY = 60 * 24
+MINUTES_PER_MONTH = MINUTES_PER_DAY * 30
 MINUTES_PER_YEAR = MINUTES_PER_DAY * 365
 
 df = pd.read_csv("data/SOLUSDT-1.csv", sep="|", index_col=0)
-df = df.reset_index()
-
-windows_per_year = MINUTES_PER_YEAR / len(df)
+df = df.iloc[-MINUTES_PER_MONTH:].reset_index()
     
 backtester = Backtester(
     df=df, close_column="close",
     bars_per_year=MINUTES_PER_YEAR,
-    windows_per_year=windows_per_year,
+    windows_per_year=12,
     fee_rate=0.00001, fee_in_usd=False
 )
 
 backtester.run(BuyAndHold(amount=2.0), n_mote_carlo_paths=1000)
 backtester.run(BuyAndHold(amount=1.0), n_mote_carlo_paths=0, baseline=True)
 
-backtester.plot_results(figsize=(12, 8), plot_corr=False)
+backtester.plot_results(figsize=(12, 8), plot_correlations=False)
 backtester.log_results()

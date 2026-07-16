@@ -8,8 +8,6 @@ import matplotlib.ticker as plticker
 from strategies import Strategy
 from result import BacktestResult
 
-rng = np.random.default_rng(42)
-
 @dataclass(slots=True)
 class Backtester:
     df: pd.DataFrame
@@ -65,6 +63,8 @@ class Backtester:
         if n_mote_carlo_paths > 0:
             log_returns = result_df["log_return"].to_numpy()
             path_length = len(log_returns)
+
+            rng = np.random.default_rng(42)
 
             indices = rng.integers(
                 0, path_length, size=(n_mote_carlo_paths, path_length)
