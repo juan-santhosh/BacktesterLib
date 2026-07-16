@@ -18,7 +18,7 @@ class Backtester:
     trading strategies.
 
     Attributes:
-        df (pd.DataFrame) DataFrame of historical prices.
+        df (pd.DataFrame): DataFrame of historical prices.
         close_columns (str): Name of close price column in data.
         bars_per_year (float): Number of bars in a year in your data interval. e.g. 365 bars for daily data.
         windows_per_year (float): Number of backtest windows in a complete year. e.g. 12 windows for a month long backtest.
@@ -171,6 +171,7 @@ class Backtester:
 
     def log_results(self) -> None:
         """Logs each strategy's performance metrics."""
+
         for result in self.results:
             result.log_metrics()
 

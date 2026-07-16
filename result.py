@@ -9,6 +9,16 @@ from strategies import Strategy
 
 @dataclass(slots=True)
 class BacktestResult:
+
+    """Dataclass which stores backtester results.
+
+    Attributes:
+        strategy (Strategy): Vectorised trading strategy.
+        result (pd.DataFrame): Modified price DataFrame which includes trading activity and performance.
+        bars_per_year (float): Number of bars in a year in your data interval.
+        windows_per_year (float): Number of backtest windows in a complete year.
+    """
+
     strategy: Strategy
     result: pd.DataFrame
     bars_per_year: float
@@ -27,7 +37,7 @@ class BacktestResult:
         return (self.total_return) ** self.windows_per_year
 
     @property
-    def sharpe(self) -> float:
+    def sharpe_ratio(self) -> float:
         returns = self.result["log_return"]
 
         if returns.std() == 0:
@@ -64,7 +74,7 @@ class BacktestResult:
             f"\nSTRATEGY: {self.strategy.name}\n"
             f"\nReturn: {self.total_return:.4f}"
             f"\nAnnualised Return: {self.annualised_return:.4f}"
-            f"\nSharpe: {self.sharpe:.4f}"
+            f"\nSharpe: {self.sharpe_ratio:.4f}"
             f"\nMax Drawdown: {self.max_drawdown:.4f}"
             f"\nWin Rate: {self.win_rate:.4f}\n"
         )
@@ -72,6 +82,16 @@ class BacktestResult:
     def plot_performance(
             self, ax: Axes, colour: str, alpha: float = 1.0,
             plot_mean: bool = True, plot_position: bool = False) -> None:
+        
+        """Plots strategy perfomance alongside optional mean and position over time.
+
+        Args:
+            ax (Axes): Matplotlib axes to plot return path on.
+            colour (str): Colour of line to plot.
+            alpha (float): Opacity of line. 1.0 is opaque while 0.0 is transparent.
+            plot_mean (bool): Default True. Decides whether to plot mean return path from monte carlo simulations.
+            plot_position (bool): Default False. Decides whether to plot position over time.
+        """
         
         sns.lineplot(
             data=self.result, x=self.result.index, y="cum_return",
@@ -91,6 +111,12 @@ class BacktestResult:
             )
 
     def plot_return_corr(self, ax: Axes) -> None:
+        """Plots strategy return correlation to market returns.
+
+        Args:
+            ax (Axes): Matplotlib axes to plot regression on.
+        """
+         
         ax.set_xlabel("Market Return")
         ax.set_ylabel("Strategy Return")
 
